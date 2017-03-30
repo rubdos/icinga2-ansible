@@ -1,0 +1,15 @@
+---
+- name: Create Icinga2 contrib plugin dir
+  file:
+    name: "{{ icinga2_plugin_contrib_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Configure contrib directory in Icinga2
+  lineinfile:
+    # If this ever fails, Ansible 2.3 changed `name` to `path`.
+    # Current versions have `name` as alias to `path`.
+    name: /etc/icinga2/constants.conf
+    regexp: "^const PluginContribDir"
+    line: 'const PluginContribDir = "{{ icinga2_plugin_contrib_dir }}"'
+  notify: reload icinga2
