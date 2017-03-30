@@ -13,6 +13,12 @@ object Host "{{ hostvars[item]['ansible_fqdn'] }}" {
     {{ attribute }} = {{ value }}
     {% endfor %}
   {% endif %}
+
+  {% if 'icinga_host_templates' in hostvars[item] %}
+    {% for template in hostvars[item].icinga_host_templates %}
+      {% include template %}
+    {% endfor %}
+  {% endif %}
 }
 
   #Here Goes Checks if Any
